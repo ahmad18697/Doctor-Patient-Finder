@@ -11,8 +11,10 @@ connectDB();
 
 // CORS
 const allowedOrigins = [
+  'http://localhost:5173',
   'https://doctor-patient-finder.vercel.app'
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
