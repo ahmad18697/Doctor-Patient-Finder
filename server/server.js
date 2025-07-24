@@ -6,29 +6,44 @@ const doctorRoutes = require('./routes/doctors');
 
 const app = express();
 
-// Connect to MongoDB
+// Database
 connectDB();
 
-// Middleware
+// CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://doctor-patient-finder.vercel.app'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+
+// Parser
 app.use(express.json());
 
 // Routes
 app.use('/api/doctors', doctorRoutes);
 
-// Error handling middleware
+// Errors
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
+  console.error('❌ Error:', err.stack);
+  res.status(500).json({
     success: false,
     message: 'Server error',
     data: null
   });
 });
 
+// Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
