@@ -36,7 +36,7 @@ const AddClinic = () => {
         },
       };
 
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/doctors/doctors/`,
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/doctors/`,
         dataToSend,
         {
           headers: {
