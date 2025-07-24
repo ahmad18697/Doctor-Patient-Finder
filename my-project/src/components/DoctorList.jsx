@@ -46,7 +46,7 @@ const DoctorList = () => {
       const location = [parseFloat(lat), parseFloat(lon)];
       setSearchLocation(location);
 
-      const response = await axios.get('/api/doctors/nearby', {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/doctors/nearby`, {
         params: {
           lat: location[0],
           lng: location[1],
