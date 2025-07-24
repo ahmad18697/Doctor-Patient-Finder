@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        //target: 'http://localhost:5000',
+        target:'https://doctor-patient-finder.onrender.com',
         changeOrigin: true,
         secure: false,
         // ❌ Removed rewrite — it was breaking the route
