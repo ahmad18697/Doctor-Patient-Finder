@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import MapComponent from './MapComponent';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddClinic = () => {
   const [formData, setFormData] = useState({
@@ -9,8 +11,7 @@ const AddClinic = () => {
     address: '',
   });
   const [position, setPosition] = useState(null);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,27 +19,45 @@ const AddClinic = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setMessage('');
+    setIsSubmitting(true);
 
     if (!position) {
-      setError('⚠️ Please select a location on the map.');
+      toast.error('⚠️ Please select a location on the map.');
+      setIsSubmitting(false);
       return;
     }
 
     try {
       const dataToSend = {
         ...formData,
-        lat: position.lat,
-        lng: position.lng,
+        location: {
+          type: 'Point',
+          coordinates: [position.lng, position.lat],
+        },
       };
 
-      await axios.post('/api/doctors', dataToSend); // Use proxy
-      setMessage('✅ Clinic added successfully!');
-      setFormData({ name: '', specialty: '', address: '' });
-      setPosition(null);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/doctors`,
+        dataToSend,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        toast.success('✅ Clinic added successfully!');
+        setFormData({ name: '', specialty: '', address: '' });
+        setPosition(null);
+      }
     } catch (err) {
-      setError('❌ Error adding clinic: ' + err.message);
+      console.error('Error adding clinic:', err);
+      toast.error(
+        `❌ Error adding clinic: ${err.response?.data?.message || err.message}`
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -47,7 +66,6 @@ const AddClinic = () => {
       <h2 className="text-2xl font-bold mb-4">Add Your Clinic</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name Input */}
         <div>
           <label className="block mb-1">Name</label>
           <input
@@ -60,7 +78,6 @@ const AddClinic = () => {
           />
         </div>
 
-        {/* Specialty Input */}
         <div>
           <label className="block mb-1">Specialty</label>
           <input
@@ -73,7 +90,6 @@ const AddClinic = () => {
           />
         </div>
 
-        {/* Address Input */}
         <div>
           <label className="block mb-1">Address</label>
           <input
@@ -86,24 +102,21 @@ const AddClinic = () => {
           />
         </div>
 
-        {/* Map Location */}
         <div className="h-96">
-          <p className="mb-2 text-sm text-gray-600">Click on the map to set your clinic location</p>
+          <p className="mb-2 text-sm text-gray-600">
+            Click on the map to set your clinic location
+          </p>
           <MapComponent position={position} setPosition={setPosition} />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4"
+          disabled={isSubmitting}
+          className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4 disabled:bg-blue-300"
         >
-          Save Clinic
+          {isSubmitting ? 'Saving...' : 'Save Clinic'}
         </button>
       </form>
-
-      {/* Feedback Messages */}
-      {message && <p className="mt-4 text-green-600">{message}</p>}
-      {error && <p className="mt-4 text-red-600">{error}</p>}
     </div>
   );
 };
