@@ -1,0 +1,24 @@
+{"level":"info","message":"🚀 Server running on port 5000","timestamp":"2025-07-24T14:24:28.456Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:24:28.520Z"}
+{"level":"info","message":"🚀 Server running on port 5000","timestamp":"2025-07-24T14:27:15.829Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:27:15.843Z"}
+{"level":"info","message":"🚀 Server running on port 5000","timestamp":"2025-07-24T14:29:06.564Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:29:06.581Z"}
+{"level":"info","message":"🚀 Server running on port 5000","timestamp":"2025-07-24T14:36:26.990Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:36:27.003Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T14:37:10.579Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:37:10.590Z"}
+{"level":"error","message":"Add doctor error: Doctor validation failed: location.coordinates.0: Cast to [Number] failed for value \"[ NaN, NaN ]\" (type string) at path \"location.coordinates.0\" because of \"CastError\", location.coordinates: Path `location.coordinates` is required.","timestamp":"2025-07-24T14:37:24.900Z"}
+{"level":"error","message":"500 - Failed to add doctor - /api/doctors","timestamp":"2025-07-24T14:37:24.905Z"}
+{"level":"error","message":"Add doctor error: Doctor validation failed: location.coordinates.0: Cast to [Number] failed for value \"[ NaN, NaN ]\" (type string) at path \"location.coordinates.0\" because of \"CastError\", location.coordinates: Path `location.coordinates` is required.","timestamp":"2025-07-24T14:40:35.060Z"}
+{"level":"error","message":"500 - Failed to add doctor - /api/doctors","timestamp":"2025-07-24T14:40:35.064Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T14:45:39.547Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:45:39.559Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T14:47:09.309Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T14:47:09.320Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T15:02:17.375Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T15:02:17.386Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T15:13:25.497Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T15:13:25.507Z"}
+{"level":"info","message":"🚀 Server running on port 5000 in undefined mode","timestamp":"2025-07-24T16:55:35.185Z"}
+{"level":"info","message":"MongoDB connected: localhost","timestamp":"2025-07-24T16:55:35.206Z"}

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import axios from 'axios';
-import MapComponent from './MapComponent';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const MapComponent = lazy(() => import('./MapComponent'));
 
 const AddClinic = () => {
   const [formData, setFormData] = useState({
@@ -19,30 +19,23 @@ const AddClinic = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
     if (!position) {
       toast.error('⚠️ Please select a location on the map.');
-      setIsSubmitting(false);
       return;
     }
 
+    setIsSubmitting(true);
     try {
-      const dataToSend = {
-        ...formData,
-        location: {
-          type: 'Point',
-          coordinates: [position.lng, position.lat],
-        },
-      };
-
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/doctors/`,
-        dataToSend,
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/doctors`,
         {
-          headers: {
-            'Content-Type': 'application/json',
+          ...formData,
+          location: {
+            type: 'Point',
+            coordinates: [position.lng, position.lat], // longitude first, latitude second
           },
-        }
+        },
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
       if (response.status === 201) {
@@ -51,10 +44,7 @@ const AddClinic = () => {
         setPosition(null);
       }
     } catch (err) {
-      console.error('Error adding clinic:', err);
-      toast.error(
-        `❌ Error adding clinic: ${err.response?.data?.message || err.message}`
-      );
+      toast.error(`❌ Error: ${err.response?.data?.message || err.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -63,7 +53,6 @@ const AddClinic = () => {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Add Your Clinic</h2>
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1">Name</label>
@@ -76,19 +65,22 @@ const AddClinic = () => {
             required
           />
         </div>
-
         <div>
           <label className="block mb-1">Specialty</label>
-          <input
-            type="text"
+          <select
             name="specialty"
             value={formData.specialty}
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
-          />
+          >
+            <option value="">Select Specialty</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Dermatology">Dermatology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="General">General</option>
+          </select>
         </div>
-
         <div>
           <label className="block mb-1">Address</label>
           <input
@@ -100,18 +92,18 @@ const AddClinic = () => {
             required
           />
         </div>
-
         <div className="h-96">
           <p className="mb-2 text-sm text-gray-600">
             Click on the map to set your clinic location
           </p>
-          <MapComponent position={position} setPosition={setPosition} />
+          <Suspense fallback={<div className="h-full bg-gray-200 animate-pulse" />}>
+            <MapComponent position={position} setPosition={setPosition} zoom={12} />
+          </Suspense>
         </div>
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4 disabled:bg-blue-300"
+          className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
         >
           {isSubmitting ? 'Saving...' : 'Save Clinic'}
         </button>

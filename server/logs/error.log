@@ -1,0 +1,4 @@
+{"level":"error","message":"Add doctor error: Doctor validation failed: location.coordinates.0: Cast to [Number] failed for value \"[ NaN, NaN ]\" (type string) at path \"location.coordinates.0\" because of \"CastError\", location.coordinates: Path `location.coordinates` is required.","timestamp":"2025-07-24T14:37:24.900Z"}
+{"level":"error","message":"500 - Failed to add doctor - /api/doctors","timestamp":"2025-07-24T14:37:24.905Z"}
+{"level":"error","message":"Add doctor error: Doctor validation failed: location.coordinates.0: Cast to [Number] failed for value \"[ NaN, NaN ]\" (type string) at path \"location.coordinates.0\" because of \"CastError\", location.coordinates: Path `location.coordinates` is required.","timestamp":"2025-07-24T14:40:35.060Z"}
+{"level":"error","message":"500 - Failed to add doctor - /api/doctors","timestamp":"2025-07-24T14:40:35.064Z"}

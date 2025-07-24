@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix for default marker icons
+// Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
@@ -24,18 +24,21 @@ const LocationMarker = ({ position, setPosition }) => {
   ) : null;
 };
 
-const MapComponent = ({ position, setPosition }) => (
+const MapComponent = ({ position, setPosition, center = [20.5937, 78.9629], zoom = 5, children }) => (
   <MapContainer
-    center={[20.5937, 78.9629]} // Center of India
-    zoom={5}
+    center={center}
+    zoom={zoom}
     style={{ height: '100%', width: '100%' }}
-    tap={false} // Fix for mobile devices
+    tap={false}
   >
     <TileLayer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution='&copy; OpenStreetMap contributors'
     />
-    <LocationMarker position={position} setPosition={setPosition} />
+    {setPosition ? (
+      <LocationMarker position={position} setPosition={setPosition} />
+    ) : null}
+    {children}
   </MapContainer>
 );
 

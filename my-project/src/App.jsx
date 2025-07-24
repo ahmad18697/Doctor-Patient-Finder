@@ -5,6 +5,10 @@ import PatientPage from './pages/PatientPage';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 
+// Import ToastContainer and CSS
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const [role, setRole] = useState('');
 
@@ -18,6 +22,19 @@ function App() {
           <Route path="/patient" element={<PatientPage />} />
         </Routes>
       </main>
+
+      {/* ToastContainer displays all toast notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000} // Close after 3 seconds
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
